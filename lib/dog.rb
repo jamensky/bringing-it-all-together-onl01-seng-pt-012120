@@ -67,7 +67,7 @@ class Dog
        else
          Dog.find_by_id(dog[0][0])
        end
-=end 
+=end
     end
 
   def self.find_by_name(name)
