@@ -62,9 +62,11 @@ class Dog
      sql = 'SELECT * FROM dogs WHERE name = ? AND breed = ?'
      dog = DB[:conn].execute(sql, hash[:name], hash[:breed])
      if !dog.empty?
-       Dog.create(hash)
-     else
        Dog.find_by_id(dog[0][0])
+
+     else
+       Dog.create(hash)
+
        #binding.pry
      end
   end
