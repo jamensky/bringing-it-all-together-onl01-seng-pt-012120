@@ -62,13 +62,13 @@ class Dog
       self.find_by_name(hash[:name])
        sql = 'SELECT * FROM dogs WHERE name = ? AND breed = ?'
        dog = DB[:conn].execute(sql, hash[:name], hash[:breed])
-=begin
+
        if dog.empty?
          Dog.create(hash)
        else
          Dog.find_by_id(dog[0][0])
-       end
-=end
+      end 
+      
     end
 
   def self.find_by_name(name)
