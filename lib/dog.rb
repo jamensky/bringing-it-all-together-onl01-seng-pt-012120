@@ -1,3 +1,4 @@
+
 class Dog
   attr_accessor :name, :breed, :id
 
@@ -26,10 +27,14 @@ class Dog
   end
 
   def save
+    if self.id
+      self.update
+    else
     sql = 'INSERT INTO dogs(name, breed) VALUES(?,?)'
      DB[:conn].execute(sql, self.name, self.breed)
     sql_2 = 'SELECT id FROM dogs WHERE name = ?'
      self.id = DB[:conn].execute(sql_2, self.name)[0][0]
+   end
     self
   end
 
@@ -38,11 +43,11 @@ class Dog
     dog.save
   end
 
-  def self.new_from_db(row)
+  def self.new_from_db(array)
     dog = self.new
-     dog.id = row[0]
-     dog.name = row[1]
-     dog.breed = row[2]
+     dog.id = array[0]
+     dog.name = array[1]
+     dog.breed = array[2]
     dog
   end
 
@@ -54,10 +59,25 @@ class Dog
   end
 
   def self.find_or_create_by(hash)
-    if !hash.include?(:id)
-      Dog.create(hash)
-
+     sql = 'SELECT * FROM dogs WHERE name = ? AND breed = ?'
+     dog = DB[:conn].execute(sql, hash[:name], hash[:breed])
+     if dog.empty?
+       Dog.create(hash)
+     else
+       Dog.find_by_id(dog[0][0])
+       #binding.pry
+     end
   end
 
+  def self.find_by_name(name)
+    sql = 'SELECT * FROM dogs WHERE name = ?'
+    dog = DB[:conn].execute(sql, name)[0]
+    Dog.new_from_db(dog)
+  end
+
+  def update
+    sql = 'UPDATE dogs SET name = ?, breed = ? WHERE id = ?'
+    DB[:conn].execute(sql, self.name, self.breed, self.id)
+  end
 
 end
