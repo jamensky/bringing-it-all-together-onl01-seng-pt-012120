@@ -63,9 +63,9 @@ class Dog
        dog = DB[:conn].execute(sql, hash[:name], hash[:breed])
 
        if dog.empty?
-         Dog.create(hash)
+         created_dog = Dog.create(hash)
        else
-         created_dog =Dog.find_by_id(dog[0][0])
+         find_dog = Dog.find_by_id(dog[0][0])
          binding.pry
       end
 
