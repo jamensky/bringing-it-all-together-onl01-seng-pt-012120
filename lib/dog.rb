@@ -32,6 +32,7 @@ class Dog
     else
     sql = 'INSERT INTO dogs(name, breed) VALUES(?,?)'
      insert_dog = DB[:conn].execute(sql, self.name, self.breed)
+     binding.pry
     sql_2 = 'SELECT id FROM dogs WHERE name = ?'
      self.id = DB[:conn].execute(sql_2, self.name)[0][0]
    end
