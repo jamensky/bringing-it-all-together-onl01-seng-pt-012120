@@ -67,6 +67,7 @@ class Dog
          Dog.create(hash)
        else
          Dog.find_by_id(dog[0][0])
+         binding.pry
       end
 
     end
