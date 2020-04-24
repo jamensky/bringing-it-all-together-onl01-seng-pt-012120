@@ -31,7 +31,7 @@ class Dog
       self.update
     else
     sql = 'INSERT INTO dogs(name, breed) VALUES(?,?)'
-     DB[:conn].execute(sql, self.name, self.breed)
+     insert_dog = DB[:conn].execute(sql, self.name, self.breed)
     sql_2 = 'SELECT id FROM dogs WHERE name = ?'
      self.id = DB[:conn].execute(sql_2, self.name)[0][0]
    end
@@ -61,7 +61,6 @@ class Dog
     def self.find_or_create_by(hash)
        sql = 'SELECT * FROM dogs WHERE name = ? AND breed = ?'
        dog = DB[:conn].execute(sql, hash[:name], hash[:breed])
-
        if dog.empty?
          created_dog = Dog.create(hash)
          binding.pry
